@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Confetti from "react-confetti";
 
 function App() {
+	const countOfRolls = useRef(0);
 	function setStartDice() {
 		countOfRolls.current = 0;
 		return Array.from({ length: 10 }, () => ({
@@ -51,7 +52,6 @@ function App() {
 			newGame.current.focus();
 		}
 	}, [isGameWon]);
-	const countOfRolls = useRef(0);
 
 	return (
 		<main className="main">
