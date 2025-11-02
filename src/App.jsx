@@ -1,5 +1,6 @@
 import Die from "../src/Die.jsx";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import Confetti from "react-confetti";
 
 function App() {
 	function setStartDice() {
@@ -28,8 +29,8 @@ function App() {
 			})
 		);
 	}
-	const [dice, setDice] = useState(() => setStartDice());
 
+	const [dice, setDice] = useState(() => setStartDice());
 	const diceElements = dice.map((die) => (
 		<Die
 			key={die.id}
@@ -38,13 +39,41 @@ function App() {
 			hold={() => hold(die.id)}
 		/>
 	));
+	const isGameWon =
+		dice.every((die) => die.isHeld) &&
+		dice.every((die) => die.value === dice[0].value);
+
+	const newGame = useRef(null);
+	useEffect(() => {
+		if (isGameWon) {
+			newGame.current.focus();
+		}
+	}, [isGameWon]);
 
 	return (
 		<main className="main">
 			<div className="dice-container">{diceElements}</div>
-			<button onClick={() => rollUnheldDice()} className="roll-dice">
-				Würfeln
-			</button>
+
+			{isGameWon ? (
+				<>
+					<button
+						ref={newGame}
+						onClick={() => setDice(() => setStartDice())}
+						className="roll-dice"
+					>
+						Neues Spiel
+					</button>
+					<Confetti />
+					<p className="sr-only" aria-live="polite">
+						Herzlichen Glückwunsch! Du hast gewonnen! Drücke „Neues Spiel“, um
+						erneut zu beginnen.
+					</p>
+				</>
+			) : (
+				<button onClick={() => rollUnheldDice()} className="roll-dice">
+					Würfeln
+				</button>
+			)}
 		</main>
 	);
 }
