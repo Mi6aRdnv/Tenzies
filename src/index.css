@@ -80,3 +80,6 @@ body {
 	border-radius: 4px;
 	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
 }
+.die--held {
+	background-color: #59e391;
+}
