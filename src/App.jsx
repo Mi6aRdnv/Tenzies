@@ -1,24 +1,25 @@
 import Die from "../src/Die.jsx";
+import { useState } from "react";
 
 function App() {
-	const randomDice = Array.from({ length: 10 }, () =>
-		Math.ceil(Math.random() * 6)
-	);
+	function setStartDice() {
+		return Array.from({ length: 10 }, () => ({
+			value: Math.ceil(Math.random() * 6),
+			id: crypto.randomUUID(),
+		}));
+	}
+	const [dice, setDice] = useState(() => setStartDice());
+
+	const diceElements = dice.map((die) => (
+		<Die key={die.id} value={die.value} />
+	));
 
 	return (
 		<main className="main">
-			<div className="dice-container">
-				<Die value={randomDice[0]} />
-				<Die value={randomDice[1]} />
-				<Die value={randomDice[2]} />
-				<Die value={randomDice[3]} />
-				<Die value={randomDice[4]} />
-				<Die value={randomDice[5]} />
-				<Die value={randomDice[6]} />
-				<Die value={randomDice[7]} />
-				<Die value={randomDice[8]} />
-				<Die value={randomDice[9]} />
-			</div>
+			<div className="dice-container">{diceElements}</div>
+			<button onClick={() => setDice(setStartDice())} className="roll-dice">
+				Würfeln
+			</button>
 		</main>
 	);
 }
