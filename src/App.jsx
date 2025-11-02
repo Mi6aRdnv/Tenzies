@@ -4,6 +4,7 @@ import Confetti from "react-confetti";
 
 function App() {
 	function setStartDice() {
+		countOfRolls.current = 0;
 		return Array.from({ length: 10 }, () => ({
 			value: Math.ceil(Math.random() * 6),
 			id: crypto.randomUUID(),
@@ -18,6 +19,7 @@ function App() {
 		);
 	}
 	function rollUnheldDice() {
+		countOfRolls.current += 1;
 		setDice((oldDice) =>
 			oldDice.map((die) => {
 				return !die?.isHeld
@@ -49,9 +51,17 @@ function App() {
 			newGame.current.focus();
 		}
 	}, [isGameWon]);
+	const countOfRolls = useRef(0);
 
 	return (
 		<main className="main">
+			<h1>Tenzies</h1>
+			<p className="rule-text">
+				Würfle, bis alle Würfel denselben Wert zeigen. Klicke auf einen Würfel,
+				um ihn bei seinem aktuellen Wert einzufrieren.
+			</p>
+			<p className="reroll-counter">Würfe: {countOfRolls.current}</p>
+
 			<div className="dice-container">{diceElements}</div>
 
 			{isGameWon ? (

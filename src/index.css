@@ -47,12 +47,13 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 34px;
+	padding: clamp(12px, 4.5vw, 34px);
 }
 .dice-container {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	gap: 20px;
+	gap: clamp(8px, 2.4vw, 20px);
+	margin-top: 20px;
 }
 .die {
 	height: 50px;
@@ -79,6 +80,16 @@ body {
 	background-color: #5035ff;
 	border-radius: 4px;
 	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
+}
+.rule-text {
+	text-align: center;
+}
+.reroll-counter {
+	margin: 5px 0 0;
+
+	font-weight: 500;
+	font-style: italic;
+	color: #00000096;
 }
 
 .die--held {
